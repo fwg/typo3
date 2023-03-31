@@ -470,12 +470,18 @@ class PageLinkBuilder extends AbstractTypolinkBuilder
         } else {
             $targetLanguageId = (int)$targetLanguageId;
         }
-        try {
-            $siteLanguageOfTargetPage = $siteOfTargetPage->getLanguageById($targetLanguageId);
-        } catch (\InvalidArgumentException $e) {
-            throw new UnableToLinkException('The target page does not have a language with ID ' . $targetLanguageId . ' configured in its site configuration.', 1535477406);
+
+        $languageIds = array_merge([$targetLanguageId], $currentSiteLanguage->getFallbackLanguageIds());
+
+        foreach ($languageIds as $languageId) {
+            try {
+                return $siteOfTargetPage->getLanguageById($languageId);
+            } catch (\InvalidArgumentException $e) {
+                continue;
+            }
         }
-        return $siteLanguageOfTargetPage;
+
+        throw new UnableToLinkException('The target page does not have a language with ID ' . $targetLanguageId . ' configured in its site configuration.', 1535477406);
     }
 
     /**
