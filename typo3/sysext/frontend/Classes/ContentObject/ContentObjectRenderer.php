@@ -3742,6 +3742,7 @@ class ContentObjectRenderer implements LoggerAwareInterface
             if ($file instanceof File) {
                 $fileObject = $file;
             } elseif ($file instanceof FileReference) {
+                $fileReference = $file;
                 $fileObject = $file->getOriginalFile();
             } else {
                 try {
