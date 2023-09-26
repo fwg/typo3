@@ -139,19 +139,7 @@ class CommandUtility
         if ($command !== 'identify' && $gfxConf['processor_interlace']) {
             $parameters = '-interlace ' . $gfxConf['processor_interlace'] . ' ' . $parameters;
         }
-        $cmdLine = $path . ' ' . $parameters;
-        // It is needed to change the parameters order when a mask image has been specified
-        if ($command === 'composite') {
-            $paramsArr = self::unQuoteFilenames($parameters);
-            $paramsArrCount = count($paramsArr);
-            if ($paramsArrCount > 5) {
-                $tmp = $paramsArr[$paramsArrCount - 3];
-                $paramsArr[$paramsArrCount - 3] = $paramsArr[$paramsArrCount - 4];
-                $paramsArr[$paramsArrCount - 4] = $tmp;
-            }
-            $cmdLine = $path . ' ' . implode(' ', $paramsArr);
-        }
-        return $cmdLine;
+        return $path . ' ' . $parameters;
     }
 
     /**

@@ -732,9 +732,10 @@ class GraphicalFunctions
         $parameters = '-compose over'
             . ' -quality ' . $this->jpegQuality
             . ' +matte '
-            . ImageMagickFile::fromFilePath($input) . ' '
             . ImageMagickFile::fromFilePath($overlay) . ' '
-            . ImageMagickFile::fromFilePath($theMask) . ' '
+            . ImageMagickFile::fromFilePath($input) . ' '
+            . ImageMagickFile::fromFilePath($theMask)
+            . ' -type TrueColor '
             . CommandUtility::escapeShellArgument($output);
         $cmd = CommandUtility::imageMagickCommand('combine', $parameters);
         $this->IM_commands[] = [$output, $cmd];
