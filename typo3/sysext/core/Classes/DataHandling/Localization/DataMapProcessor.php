@@ -720,6 +720,19 @@ class DataMapProcessor
                 $configuration['config']
             );
             $suggestedAncestorIds = $this->mapRelationItemId($relationHandler->itemArray);
+            $foreignTableLanguageField = $GLOBALS['TCA'][$foreignTableName]['ctrl']['languageField'] ?? false;
+            $itemTableLanguageField = $configuration['ctrl']['languageField'] ?? false;
+            // filter out suggested ancestor records that have a different language than the source data map item in
+            // $item   => we do not want to translate those (again)
+            if ($foreignTableLanguageField && $itemTableLanguageField) {
+                $suggestedAncestorIds = array_filter(
+                    $suggestedAncestorIds,
+                    function ($id) use ($itemTableLanguageField, $foreignTableLanguageField, $foreignTableName, $fromRecord) {
+                        $ancestorRecord = BackendUtility::getRecord($foreignTableName, $id, $foreignTableLanguageField);
+                        return (int)$fromRecord[$itemTableLanguageField] === (int)$ancestorRecord[$foreignTableLanguageField];
+                    }
+                );
+            }
         }
 
         return array_filter($suggestedAncestorIds);
