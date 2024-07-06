@@ -779,6 +779,8 @@ class BackendUtility
         $pageTsConfigFactory = GeneralUtility::makeInstance(PageTsConfigFactory::class);
         $pageTsConfig = $pageTsConfigFactory->create($fullRootLine, $site, static::getBackendUserAuthentication()?->getUserTsConfig());
 
+        $cacheRelevantDataHash .= '-' . $pageTsConfig->getConditionHash();
+
         $runtimeCache->set('pageTsConfig-pid-to-hash-' . $pageUid, $cacheRelevantDataHash);
         $runtimeCache->set('pageTsConfig-hash-to-object-' . $cacheRelevantDataHash, $pageTsConfig);
         return $pageTsConfig->getPageTsConfigArray();

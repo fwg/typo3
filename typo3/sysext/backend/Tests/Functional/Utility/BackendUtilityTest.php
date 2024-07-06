@@ -225,4 +225,24 @@ final class BackendUtilityTest extends FunctionalTestCase
         $expectation = str_replace(array_keys($replaces), array_values($replaces), $expectation);
         self::assertSame($expectation, $statement);
     }
+
+    #[Test]
+    public function pageTSconfigWorksCorrectly(): void
+    {
+        // root page: some_property set in TSconfig
+        $ts = BackendUtility::getPagesTSconfig(1);
+        self::assertSame('0', $ts['some_property']);
+
+        // sub page: inherited from root page
+        $ts = BackendUtility::getPagesTSconfig(2);
+        self::assertSame('0', $ts['some_property']);
+
+        // sub page with overridden TSconfig
+        $ts = BackendUtility::getPagesTSconfig(5);
+        self::assertSame('5', $ts['some_property']);
+
+        // sub page with inherited conditional property
+        $ts = BackendUtility::getPagesTSconfig(6);
+        self::assertSame('6', $ts['some_property']);
+    }
 }

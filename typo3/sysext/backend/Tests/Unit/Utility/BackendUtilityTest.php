@@ -873,7 +873,7 @@ final class BackendUtilityTest extends UnitTestCase
         $cacheManagerMock->method('getCache')->with('runtime')->willReturn($cacheMock);
         $cacheMock->method('get')->willReturnMap([
             ['pageTsConfig-pid-to-hash-0', 'hash'],
-            ['pageTsConfig-hash-to-object-hash', new PageTsConfig(new RootNode())],
+            ['pageTsConfig-hash-to-object-hash', new PageTsConfig(new RootNode(), '')],
         ]);
         $siteFinderMock = $this->createMock(SiteFinder::class);
         GeneralUtility::addInstance(ItemProcessingService::class, new ItemProcessingService($siteFinderMock));
@@ -1033,7 +1033,7 @@ final class BackendUtilityTest extends UnitTestCase
         $cacheManagerMock->method('getCache')->with('runtime')->willReturn($cacheMock);
         $cacheMock->method('get')->willReturnMap([
             ['pageTsConfig-pid-to-hash-0', 'hash'],
-            ['pageTsConfig-hash-to-object-hash', new PageTsConfig(new RootNode())],
+            ['pageTsConfig-hash-to-object-hash', new PageTsConfig(new RootNode(), '')],
         ]);
         $siteFinderMock = $this->createMock(SiteFinder::class);
         GeneralUtility::addInstance(ItemProcessingService::class, new ItemProcessingService($siteFinderMock));

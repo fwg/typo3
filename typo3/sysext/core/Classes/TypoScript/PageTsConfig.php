@@ -29,7 +29,8 @@ final class PageTsConfig
     private readonly array $pageTsConfigArray;
 
     public function __construct(
-        private readonly RootNode $pageTsConfigTree
+        private readonly RootNode $pageTsConfigTree,
+        private readonly string $conditionHash,
     ) {
         $this->pageTsConfigArray = $pageTsConfigTree->toArray();
     }
@@ -42,5 +43,10 @@ final class PageTsConfig
     public function getPageTsConfigArray(): array
     {
         return $this->pageTsConfigArray;
+    }
+
+    public function getConditionHash(): string
+    {
+        return $this->conditionHash;
     }
 }
